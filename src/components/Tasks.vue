@@ -1,83 +1,19 @@
 <template>
   <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
-        <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
-          contain
-          height="200"
-        />
-      </v-col>
-
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
-
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br />please join our online
-          <a href="https://community.vuetifyjs.com" target="_blank"
-            >Discord Community</a
-          >
-        </p>
-      </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col class="mb-5" cols="12">
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
-      </v-col>
-    </v-row>
+    <div>
+      <v-data-table
+        :headers="headers"
+        :items="tasks"
+        hide-default-footer
+        hide-default-header
+        sort-by.sync="isFinished"
+        class="elevation-1"
+      >
+        <template v-slot:item.isFinished="{ item }">
+          <v-simple-checkbox v-model="item.isFinished"></v-simple-checkbox>
+        </template>
+      </v-data-table>
+    </div>
   </v-container>
 </template>
 
@@ -88,54 +24,41 @@ export default Vue.extend({
   name: "HelloWorld",
 
   data: () => ({
-    ecosystem: [
+    headers: [
       {
-        text: "vuetify-loader",
-        href: "https://github.com/vuetifyjs/vuetify-loader"
+        align: "start",
+        sortable: false,
+        value: "isFinished",
+        width: "20"
       },
-      {
-        text: "github",
-        href: "https://github.com/vuetifyjs/vuetify"
-      },
-      {
-        text: "awesome-vuetify",
-        href: "https://github.com/vuetifyjs/awesome-vuetify"
-      }
+      { text: "Title", value: "title" },
+      { text: "Description", value: "description" }
     ],
-    importantLinks: [
+    tasks: [
       {
-        text: "Documentation",
-        href: "https://vuetifyjs.com"
+        title: "TODO の一覧表示",
+        description: "Vuetify 使いました",
+        isFinished: true
       },
       {
-        text: "Chat",
-        href: "https://community.vuetifyjs.com"
+        title: "Azure へのデプロイ",
+        description: "デプロイ先は Azure Static WebApps を利用",
+        isFinished: true
       },
       {
-        text: "Made with Vuetify",
-        href: "https://madewithvuejs.com/vuetify"
+        title: "TODO の追加",
+        description: "",
+        isFinished: false
       },
       {
-        text: "Twitter",
-        href: "https://twitter.com/vuetifyjs"
+        title: "TODO の完了",
+        description: "",
+        isFinished: false
       },
       {
-        text: "Articles",
-        href: "https://medium.com/vuetify"
-      }
-    ],
-    whatsNext: [
-      {
-        text: "Explore components",
-        href: "https://vuetifyjs.com/components/api-explorer"
-      },
-      {
-        text: "Select a layout",
-        href: "https://vuetifyjs.com/getting-started/pre-made-layouts"
-      },
-      {
-        text: "Frequently Asked Questions",
-        href: "https://vuetifyjs.com/getting-started/frequently-asked-questions"
+        title: "TODO の削除",
+        description: "",
+        isFinished: false
       }
     ]
   })
